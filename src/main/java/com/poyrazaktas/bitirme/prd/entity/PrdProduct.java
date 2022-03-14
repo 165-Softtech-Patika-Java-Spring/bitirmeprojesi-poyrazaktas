@@ -4,6 +4,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
+import javax.validation.constraints.Positive;
 import java.math.BigDecimal;
 
 @Entity
@@ -17,12 +18,14 @@ public class PrdProduct {
     @GeneratedValue(generator = "PrdProduct")
     private Long id;
 
+    @Column(name = "ID_TYP_PRODUCT_TYPE",nullable = false)
+    private Long productTypeId;
+
     @Column(name="NAME", nullable = false)
     private String name;
 
-    // ürün tipine karar verilecek
-
-    @Column(name = "PRICE_RAW", precision = 19, scale = 2)
+    @Positive
+    @Column(name = "PRICE_RAW", precision = 19, scale = 2,nullable = false)
     private BigDecimal priceRaw;
 
     @Column(name = "PRICE_WITH_TAX",precision = 19, scale = 2)
