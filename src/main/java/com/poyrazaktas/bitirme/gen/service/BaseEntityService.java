@@ -2,10 +2,12 @@ package com.poyrazaktas.bitirme.gen.service;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
 
+@Service
 @RequiredArgsConstructor
 public abstract class BaseEntityService<E,D extends JpaRepository> {
     private final D dao;
@@ -31,5 +33,9 @@ public abstract class BaseEntityService<E,D extends JpaRepository> {
 
     public void delete(E entity){
         dao.delete(entity);
+    }
+
+    public D getDao() {
+        return dao;
     }
 }
