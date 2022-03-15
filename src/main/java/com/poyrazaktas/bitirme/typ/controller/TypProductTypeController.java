@@ -13,11 +13,11 @@ import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/api/v1/productTypes")
+@RequestMapping("/api/v1/product-types")
 public class TypProductTypeController {
     private final TypProductTypeService productTypeService;
 
-    @GetMapping("/getAll")
+    @GetMapping
     public ResponseEntity findAll() {
         List<TypProductTypeDto> productTypeDtoList = productTypeService.findAll();
         RestResponse<List<TypProductTypeDto>> response = RestResponse.of(productTypeDtoList);
