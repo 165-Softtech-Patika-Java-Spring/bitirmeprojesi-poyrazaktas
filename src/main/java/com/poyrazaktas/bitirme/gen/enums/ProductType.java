@@ -1,6 +1,6 @@
-package com.poyrazaktas.bitirme.typ.enums;
+package com.poyrazaktas.bitirme.gen.enums;
 
-public enum TypType {
+public enum ProductType {
     NUTRITION("NUTRITION"),
     STATIONARY("STATIONARY"),
     CLOTHING("CLOTHING"),
@@ -11,7 +11,7 @@ public enum TypType {
 
     private String name;
 
-    TypType(String name) {
+    ProductType(String name) {
         this.name = name;
     }
 

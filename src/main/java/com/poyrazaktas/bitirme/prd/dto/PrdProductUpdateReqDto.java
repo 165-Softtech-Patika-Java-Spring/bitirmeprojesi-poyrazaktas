@@ -1,5 +1,6 @@
 package com.poyrazaktas.bitirme.prd.dto;
 
+import com.poyrazaktas.bitirme.gen.enums.ProductType;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -15,10 +16,10 @@ public class PrdProductUpdateReqDto {
     private Long id;
 
     @NotNull
-    private Long productTypeId;
+    private String name;
 
     @NotNull
-    private String name;
+    private ProductType productType;
 
     @Positive
     @NotNull

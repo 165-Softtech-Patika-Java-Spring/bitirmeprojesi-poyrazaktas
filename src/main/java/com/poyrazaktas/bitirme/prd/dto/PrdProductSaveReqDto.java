@@ -1,5 +1,6 @@
 package com.poyrazaktas.bitirme.prd.dto;
 
+import com.poyrazaktas.bitirme.gen.enums.ProductType;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -11,11 +12,12 @@ import java.math.BigDecimal;
 @Setter
 public class PrdProductSaveReqDto {
 
-    @NotNull
-    private Long productTypeId;
 
     @NotNull
     private String name;
+
+    @NotNull
+    private ProductType productType;
 
     @Positive
     @NotNull

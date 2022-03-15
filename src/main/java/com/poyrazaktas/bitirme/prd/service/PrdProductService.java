@@ -1,5 +1,6 @@
 package com.poyrazaktas.bitirme.prd.service;
 
+import com.poyrazaktas.bitirme.gen.enums.ProductType;
 import com.poyrazaktas.bitirme.prd.converter.PrdProductMapper;
 import com.poyrazaktas.bitirme.prd.dto.PrdProductDto;
 import com.poyrazaktas.bitirme.prd.dto.PrdProductSaveReqDto;
@@ -19,22 +20,22 @@ public class PrdProductService {
     private final PrdProductEntityService productEntityService;
     private final VatValueAddedTaxEntityService valueAddedTaxEntityService;
 
-    public List<PrdProductDto> findAll(){
+    public List<PrdProductDto> findAll() {
         List<PrdProduct> productList = productEntityService.findAll();
         return PrdProductMapper.INSTANCE.convertToProductDtoList(productList);
     }
 
-    public PrdProductDto getById(Long id){
+    public PrdProductDto getById(Long id) {
         PrdProduct product = productEntityService.getByIdWithControl(id);
         return PrdProductMapper.INSTANCE.convertToProductDto(product);
     }
 
-    public PrdProductDto save(PrdProductSaveReqDto saveReqDto){
+    public PrdProductDto save(PrdProductSaveReqDto saveReqDto) {
         PrdProduct product = PrdProductMapper.INSTANCE.convertToProduct(saveReqDto);
 
         // get value added tax rate by product type by id
-        Long productTypeId = product.getProductTypeId();
-        VatValueAddedTax tax = valueAddedTaxEntityService.getValueAddedTaxByProductTypeId(productTypeId);
+        ProductType productType = product.getProductType();
+        VatValueAddedTax tax = valueAddedTaxEntityService.getVatValueAddedTaxByProductType(productType);
         int vatRate = tax.getVatRate();
 
         // calculate price with tax with vat rate

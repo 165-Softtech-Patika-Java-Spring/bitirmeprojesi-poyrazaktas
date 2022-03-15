@@ -1,5 +1,6 @@
 package com.poyrazaktas.bitirme.prd.entity;
 
+import com.poyrazaktas.bitirme.gen.enums.ProductType;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -18,11 +19,12 @@ public class PrdProduct {
     @GeneratedValue(generator = "PrdProduct")
     private Long id;
 
-    @Column(name = "ID_TYP_PRODUCT_TYPE", nullable = false)
-    private Long productTypeId;
-
     @Column(name = "NAME", nullable = false)
     private String name;
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "PRODUCT_TYPE",length = 30,nullable = false)
+    private ProductType productType;
 
     @Positive
     @Column(name = "PRICE_RAW", precision = 19, scale = 2, nullable = false)

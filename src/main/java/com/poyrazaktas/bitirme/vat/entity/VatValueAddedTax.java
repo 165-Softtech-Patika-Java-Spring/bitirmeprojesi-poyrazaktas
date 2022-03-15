@@ -1,5 +1,6 @@
 package com.poyrazaktas.bitirme.vat.entity;
 
+import com.poyrazaktas.bitirme.gen.enums.ProductType;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -16,8 +17,9 @@ public class VatValueAddedTax {
     @GeneratedValue(generator = "VatValueAddedTax")
     private Long id;
 
-    @Column(name = "ID_TYP_PRODUCT_TYPE",nullable = false)
-    private Long productTypeId;
+    @Enumerated(EnumType.STRING)
+    @Column(name = "PRODUCT_TYPE",length = 30,nullable = false)
+    private ProductType productType;
 
     @PositiveOrZero
     @Column(name="VAT_RATE",nullable = false)

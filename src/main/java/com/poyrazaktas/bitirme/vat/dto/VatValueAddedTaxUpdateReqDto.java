@@ -1,6 +1,7 @@
 package com.poyrazaktas.bitirme.vat.dto;
 
 
+import com.poyrazaktas.bitirme.gen.enums.ProductType;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -12,7 +13,7 @@ import javax.validation.constraints.PositiveOrZero;
 public class VatValueAddedTaxUpdateReqDto {
 
     @NotNull
-    private Long productTypeId;
+    private ProductType productType;
 
     @PositiveOrZero
     private int vatRate;
