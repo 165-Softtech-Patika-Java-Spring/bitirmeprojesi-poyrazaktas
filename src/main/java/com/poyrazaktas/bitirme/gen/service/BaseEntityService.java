@@ -1,5 +1,7 @@
 package com.poyrazaktas.bitirme.gen.service;
 
+import com.poyrazaktas.bitirme.gen.enums.GenErrorMessage;
+import com.poyrazaktas.bitirme.gen.exception.ItemNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Service;
@@ -9,21 +11,22 @@ import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
-public abstract class BaseEntityService<E,D extends JpaRepository> {
+public abstract class BaseEntityService<E, D extends JpaRepository> {
     private final D dao;
-    public List<E> findAll(){
+
+    public List<E> findAll() {
         return dao.findAll();
     }
 
-    public Optional<E> findById(Long id){
+    public Optional<E> findById(Long id) {
         return dao.findById(id);
     }
 
-    public E getById(Long id){
-        return findById(id).orElseThrow(()->new RuntimeException("Item not found"));
+    public E getByIdWithControl(Long id) {
+        return findById(id).orElseThrow(() -> new ItemNotFoundException(GenErrorMessage.ITEM_NOT_FOUND));
     }
 
-    public boolean existsById(Long id){
+    public boolean existsById(Long id) {
         return dao.existsById(id);
     }
 
@@ -31,7 +34,7 @@ public abstract class BaseEntityService<E,D extends JpaRepository> {
         return save(entity);
     }
 
-    public void delete(E entity){
+    public void delete(E entity) {
         dao.delete(entity);
     }
 

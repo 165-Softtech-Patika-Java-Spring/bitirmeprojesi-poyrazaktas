@@ -8,7 +8,7 @@ import javax.validation.constraints.Positive;
 import java.math.BigDecimal;
 
 @Entity
-@Table(name="PRD_PRODUCT")
+@Table(name = "PRD_PRODUCT")
 @Getter
 @Setter
 public class PrdProduct {
@@ -18,17 +18,17 @@ public class PrdProduct {
     @GeneratedValue(generator = "PrdProduct")
     private Long id;
 
-    @Column(name = "ID_TYP_PRODUCT_TYPE",nullable = false)
+    @Column(name = "ID_TYP_PRODUCT_TYPE", nullable = false)
     private Long productTypeId;
 
-    @Column(name="NAME", nullable = false)
+    @Column(name = "NAME", nullable = false)
     private String name;
 
     @Positive
-    @Column(name = "PRICE_RAW", precision = 19, scale = 2,nullable = false)
+    @Column(name = "PRICE_RAW", precision = 19, scale = 2, nullable = false)
     private BigDecimal priceRaw;
 
-    @Column(name = "PRICE_WITH_TAX",precision = 19, scale = 2)
+    @Column(name = "PRICE_WITH_TAX", precision = 19, scale = 2, insertable = false, updatable = false)
     private BigDecimal priceWithTax;
 
 }
