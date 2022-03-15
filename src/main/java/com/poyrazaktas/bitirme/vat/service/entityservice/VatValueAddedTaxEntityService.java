@@ -10,4 +10,8 @@ public class VatValueAddedTaxEntityService extends BaseEntityService<VatValueAdd
     public VatValueAddedTaxEntityService(VatValueAddedTaxDao dao) {
         super(dao);
     }
+
+    public VatValueAddedTax getValueAddedTaxByProductTypeId(Long productTypeId){
+        return this.getDao().getVatValueAddedTaxByProductTypeId(productTypeId);
+    }
 }

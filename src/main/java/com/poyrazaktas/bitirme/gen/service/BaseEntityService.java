@@ -11,7 +11,7 @@ import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
-public abstract class BaseEntityService<E, D extends JpaRepository> {
+public abstract class BaseEntityService<E, D extends JpaRepository<E,Long>> {
     private final D dao;
 
     public List<E> findAll() {
@@ -31,7 +31,7 @@ public abstract class BaseEntityService<E, D extends JpaRepository> {
     }
 
     public E save(E entity) {
-        return save(entity);
+        return dao.save(entity);
     }
 
     public void delete(E entity) {

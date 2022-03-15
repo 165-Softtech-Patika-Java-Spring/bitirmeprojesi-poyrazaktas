@@ -5,38 +5,52 @@ import com.poyrazaktas.bitirme.prd.dto.PrdProductDto;
 import com.poyrazaktas.bitirme.prd.dto.PrdProductSaveReqDto;
 import com.poyrazaktas.bitirme.prd.entity.PrdProduct;
 import com.poyrazaktas.bitirme.prd.service.entityservice.PrdProductEntityService;
+import com.poyrazaktas.bitirme.vat.entity.VatValueAddedTax;
+import com.poyrazaktas.bitirme.vat.service.entityservice.VatValueAddedTaxEntityService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 @Service
 @RequiredArgsConstructor
 public class PrdProductService {
     private final PrdProductEntityService productEntityService;
+    private final VatValueAddedTaxEntityService valueAddedTaxEntityService;
 
-    List<PrdProductDto> findAll(){
+    public List<PrdProductDto> findAll(){
         List<PrdProduct> productList = productEntityService.findAll();
         return PrdProductMapper.INSTANCE.convertToProductDtoList(productList);
     }
 
-    PrdProductDto getById(Long id){
+    public PrdProductDto getById(Long id){
         PrdProduct product = productEntityService.getByIdWithControl(id);
         return PrdProductMapper.INSTANCE.convertToProductDto(product);
     }
 
-    PrdProductDto save(PrdProductSaveReqDto saveReqDto){
+    public PrdProductDto save(PrdProductSaveReqDto saveReqDto){
         PrdProduct product = PrdProductMapper.INSTANCE.convertToProduct(saveReqDto);
 
         // get value added tax rate by product type by id
         Long productTypeId = product.getProductTypeId();
+        VatValueAddedTax tax = valueAddedTaxEntityService.getValueAddedTaxByProductTypeId(productTypeId);
+        int vatRate = tax.getVatRate();
 
         // calculate price with tax with vat rate
+        BigDecimal priceRaw = product.getPriceRaw();
+        BigDecimal priceWithTax = calculatePriceWithTax(vatRate, priceRaw);
+        product.setPriceWithTax(priceWithTax);
 
         // save product
+        product = productEntityService.save(product);
 
         // convert product to product dto
 
-        return new PrdProductDto();
+        return PrdProductMapper.INSTANCE.convertToProductDto(product);
+    }
+
+    private BigDecimal calculatePriceWithTax(int vatRate, BigDecimal priceRaw) {
+        return priceRaw.add(priceRaw.multiply(BigDecimal.valueOf(vatRate).divide(BigDecimal.valueOf(100))));
     }
 }

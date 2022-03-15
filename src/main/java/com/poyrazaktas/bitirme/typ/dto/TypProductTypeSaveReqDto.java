@@ -9,6 +9,5 @@ import javax.validation.constraints.NotNull;
 @Getter
 @Setter
 public class TypProductTypeSaveReqDto {
-    @NotNull
     private TypType type;
 }
