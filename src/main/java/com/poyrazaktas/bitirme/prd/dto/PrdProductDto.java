@@ -10,6 +10,8 @@ import java.math.BigDecimal;
 @Setter
 public class PrdProductDto {
 
+    private Long id;
+
     private String name;
 
     private ProductType productType;

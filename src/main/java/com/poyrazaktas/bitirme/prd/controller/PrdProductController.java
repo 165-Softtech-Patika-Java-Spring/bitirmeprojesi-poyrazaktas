@@ -3,6 +3,7 @@ package com.poyrazaktas.bitirme.prd.controller;
 import com.poyrazaktas.bitirme.gen.dto.RestResponse;
 import com.poyrazaktas.bitirme.prd.dto.PrdProductDto;
 import com.poyrazaktas.bitirme.prd.dto.PrdProductSaveReqDto;
+import com.poyrazaktas.bitirme.prd.dto.PrdProductUpdateReqDto;
 import com.poyrazaktas.bitirme.prd.service.PrdProductService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -35,5 +36,19 @@ public class PrdProductController {
         PrdProductDto productDto = productService.save(saveReqDto);
         RestResponse<PrdProductDto> response = RestResponse.of(productDto);
         return ResponseEntity.ok(response);
+    }
+
+    @PutMapping("/update")
+    public ResponseEntity update(@RequestBody PrdProductUpdateReqDto updateReqDto) {
+        PrdProductDto productDto = productService.update(updateReqDto);
+        RestResponse<PrdProductDto> response = RestResponse.of(productDto);
+        return ResponseEntity.ok(response);
+    }
+
+    @DeleteMapping("/delete/{id}")
+    public ResponseEntity delete(@PathVariable Long id) {
+        productService.delete(id);
+        RestResponse<Object> emptyResponse = RestResponse.empty();
+        return ResponseEntity.ok(emptyResponse);
     }
 }

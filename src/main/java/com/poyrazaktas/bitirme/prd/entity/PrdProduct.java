@@ -30,7 +30,7 @@ public class PrdProduct {
     @Column(name = "PRICE_RAW", precision = 19, scale = 2, nullable = false)
     private BigDecimal priceRaw;
 
-    @Column(name = "PRICE_WITH_TAX", precision = 19, scale = 2, insertable = false, updatable = false)
+    @Column(name = "PRICE_WITH_TAX", precision = 19, scale = 2)
     private BigDecimal priceWithTax;
 
 }

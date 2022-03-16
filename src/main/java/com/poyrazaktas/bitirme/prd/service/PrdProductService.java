@@ -4,6 +4,7 @@ import com.poyrazaktas.bitirme.gen.enums.ProductType;
 import com.poyrazaktas.bitirme.prd.converter.PrdProductMapper;
 import com.poyrazaktas.bitirme.prd.dto.PrdProductDto;
 import com.poyrazaktas.bitirme.prd.dto.PrdProductSaveReqDto;
+import com.poyrazaktas.bitirme.prd.dto.PrdProductUpdateReqDto;
 import com.poyrazaktas.bitirme.prd.entity.PrdProduct;
 import com.poyrazaktas.bitirme.prd.service.entityservice.PrdProductEntityService;
 import com.poyrazaktas.bitirme.vat.entity.VatValueAddedTax;
@@ -33,7 +34,7 @@ public class PrdProductService {
     public PrdProductDto save(PrdProductSaveReqDto saveReqDto) {
         PrdProduct product = PrdProductMapper.INSTANCE.convertToProduct(saveReqDto);
 
-        // get value added tax rate by product type by id
+        // get value added tax rate by product type
         ProductType productType = product.getProductType();
         VatValueAddedTax tax = valueAddedTaxEntityService.getVatValueAddedTaxByProductType(productType);
         int vatRate = tax.getVatRate();
@@ -49,6 +50,34 @@ public class PrdProductService {
         // convert product to product dto
 
         return PrdProductMapper.INSTANCE.convertToProductDto(product);
+    }
+
+
+    public PrdProductDto update(PrdProductUpdateReqDto updateReqDto) {
+        PrdProduct oldProduct = productEntityService.getByIdWithControl(updateReqDto.getId());
+        PrdProduct newProduct = PrdProductMapper.INSTANCE.convertToProduct(updateReqDto);
+
+        // unless product type or priceRaw change, don't calculate the price with tax
+        if (oldProduct.getProductType() != newProduct.getProductType() ||
+                oldProduct.getPriceRaw() != newProduct.getPriceRaw()) {
+            // get product type
+            ProductType productType = newProduct.getProductType();
+            BigDecimal priceRaw = newProduct.getPriceRaw();
+            VatValueAddedTax valueAddedTax = valueAddedTaxEntityService.getVatValueAddedTaxByProductType(productType);
+            int vatRate = valueAddedTax.getVatRate();
+            BigDecimal priceWithTax = calculatePriceWithTax(vatRate, priceRaw);
+            newProduct.setPriceWithTax(priceWithTax);
+        }
+
+        PrdProduct updatedProduct = productEntityService.save(newProduct);
+
+        return PrdProductMapper.INSTANCE.convertToProductDto(updatedProduct);
+
+    }
+
+    public void delete(Long id) {
+        PrdProduct product = productEntityService.getByIdWithControl(id);
+        productEntityService.delete(product);
     }
 
     private BigDecimal calculatePriceWithTax(int vatRate, BigDecimal priceRaw) {
