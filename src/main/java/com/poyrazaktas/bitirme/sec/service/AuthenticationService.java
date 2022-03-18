@@ -3,8 +3,10 @@ package com.poyrazaktas.bitirme.sec.service;
 import com.poyrazaktas.bitirme.sec.dto.JwtUserLoginReqDto;
 import com.poyrazaktas.bitirme.sec.enums.JwtConstant;
 import com.poyrazaktas.bitirme.sec.security.JwtTokenGenerator;
+import com.poyrazaktas.bitirme.sec.security.JwtUserDetails;
 import com.poyrazaktas.bitirme.usr.dto.UsrUserDto;
 import com.poyrazaktas.bitirme.usr.dto.UsrUserSaveReqDto;
+import com.poyrazaktas.bitirme.usr.entity.UsrUser;
 import com.poyrazaktas.bitirme.usr.service.UsrUserService;
 import com.poyrazaktas.bitirme.usr.service.entityservice.UsrUserEntityService;
 import lombok.RequiredArgsConstructor;
@@ -39,4 +41,49 @@ public class AuthenticationService {
 
         return bearer + token;
     }
+
+    public Long getCurrentUserId() {
+        JwtUserDetails jwtUserDetails = getCurrentJwtUserDetails();
+
+        Long currentUserId = null;
+        if (jwtUserDetails != null) {
+            currentUserId = jwtUserDetails.getId();
+        }
+
+        return currentUserId;
+    }
+
+    public String getCurrentUserName() {
+        JwtUserDetails jwtUserDetails = getCurrentJwtUserDetails();
+        String currentUserName = null;
+        if (jwtUserDetails != null) {
+            currentUserName = jwtUserDetails.getUsername();
+        }
+        return currentUserName;
+    }
+
+
+    public UsrUser getCurrentUser() {
+        JwtUserDetails jwtUserDetails = getCurrentJwtUserDetails();
+
+        UsrUser user = null;
+        if (jwtUserDetails != null) {
+            user = userEntityService.getByIdWithControl(jwtUserDetails.getId());
+        }
+
+        return user;
+    }
+
+    private JwtUserDetails getCurrentJwtUserDetails() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+
+        JwtUserDetails jwtUserDetails = null;
+
+        if (authentication != null && authentication.getPrincipal() instanceof JwtUserDetails) {
+            jwtUserDetails = (JwtUserDetails) authentication.getPrincipal();
+        }
+
+        return jwtUserDetails;
+    }
+
 }

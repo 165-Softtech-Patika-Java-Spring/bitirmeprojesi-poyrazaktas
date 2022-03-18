@@ -11,6 +11,4 @@ public class UsrUserDto {
     private String lastName;
 
     private String userName;
-
-    private String password;
 }

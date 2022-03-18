@@ -4,7 +4,10 @@ import com.poyrazaktas.bitirme.gen.entity.BaseAdditionalFields;
 import com.poyrazaktas.bitirme.gen.entity.BaseEntity;
 import com.poyrazaktas.bitirme.gen.enums.GenErrorMessage;
 import com.poyrazaktas.bitirme.gen.exception.ItemNotFoundException;
+import com.poyrazaktas.bitirme.sec.service.AuthenticationService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Service;
 
@@ -16,6 +19,13 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public abstract class BaseEntityService<E extends BaseEntity, D extends JpaRepository<E, Long>> {
     private final D dao;
+
+    private AuthenticationService authenticationService;
+
+    @Autowired
+    public void setAuthenticationService(@Lazy AuthenticationService authenticationService) {
+        this.authenticationService = authenticationService;
+    }
 
     public List<E> findAll() {
         return dao.findAll();
@@ -49,6 +59,7 @@ public abstract class BaseEntityService<E extends BaseEntity, D extends JpaRepos
     private void setAdditionalFields(E entity) {
         BaseAdditionalFields baseAdditionalFields = entity.getBaseAdditionalFields();
 
+        Long currentUserId = getCurrentUserId();
 
         if (baseAdditionalFields == null) {
             baseAdditionalFields = new BaseAdditionalFields();
@@ -57,10 +68,20 @@ public abstract class BaseEntityService<E extends BaseEntity, D extends JpaRepos
 
         if (entity.getId() == null) {
             baseAdditionalFields.setCreateDate(new Date());
-            baseAdditionalFields.setCreatedBy(null);
+            baseAdditionalFields.setCreatedBy(currentUserId);
         }
 
         baseAdditionalFields.setUpdateDate(new Date());
-        baseAdditionalFields.setUpdatedBy(null);
+        baseAdditionalFields.setUpdatedBy(currentUserId);
+    }
+
+    public Long getCurrentUserId() {
+        Long userId = authenticationService.getCurrentUserId();
+        return userId;
+    }
+
+    public String getCurrentUserName() {
+        String userName = authenticationService.getCurrentUserName();
+        return userName;
     }
 }
