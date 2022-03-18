@@ -7,6 +7,7 @@ import com.poyrazaktas.bitirme.usr.dto.UsrUserUpdateReqDto;
 import com.poyrazaktas.bitirme.usr.entity.UsrUser;
 import com.poyrazaktas.bitirme.usr.service.entityservice.UsrUserEntityService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -15,7 +16,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class UsrUserService {
     private final UsrUserEntityService userEntityService;
-
+    private final PasswordEncoder passwordEncoder;
     public List<UsrUserDto> findAll(){
         List<UsrUser> userList = userEntityService.findAll();
         return UsrUserMapper.INSTANCE.convertToUserDtoList(userList);
@@ -28,6 +29,10 @@ public class UsrUserService {
 
     public UsrUserDto save(UsrUserSaveReqDto saveReqDto){
         UsrUser user = UsrUserMapper.INSTANCE.convertToUser(saveReqDto);
+
+        String passwordEncoded = passwordEncoder.encode(user.getPassword());
+        user.setPassword(passwordEncoded);
+
         user = userEntityService.save(user);
         return UsrUserMapper.INSTANCE.convertToUserDto(user);
     }
