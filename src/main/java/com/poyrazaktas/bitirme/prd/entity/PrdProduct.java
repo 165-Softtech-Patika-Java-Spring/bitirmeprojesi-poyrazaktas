@@ -1,5 +1,6 @@
 package com.poyrazaktas.bitirme.prd.entity;
 
+import com.poyrazaktas.bitirme.gen.entity.BaseEntity;
 import com.poyrazaktas.bitirme.gen.enums.ProductType;
 import lombok.Getter;
 import lombok.Setter;
@@ -12,7 +13,7 @@ import java.math.BigDecimal;
 @Table(name = "PRD_PRODUCT")
 @Getter
 @Setter
-public class PrdProduct {
+public class PrdProduct extends BaseEntity {
 
     @Id
     @SequenceGenerator(name = "PrdProduct", sequenceName = "SEQ_PRD_PRODUCT_ID")

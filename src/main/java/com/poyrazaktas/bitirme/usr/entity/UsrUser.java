@@ -1,5 +1,6 @@
 package com.poyrazaktas.bitirme.usr.entity;
 
+import com.poyrazaktas.bitirme.gen.entity.BaseEntity;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -9,7 +10,7 @@ import javax.persistence.*;
 @Table(name = "USR_USER")
 @Getter
 @Setter
-public class UsrUser {
+public class UsrUser extends BaseEntity {
     @Id
     @SequenceGenerator(name = "UsrUser", sequenceName = "SEQ_USR_USER_ID")
     @GeneratedValue(generator = "UsrUser")

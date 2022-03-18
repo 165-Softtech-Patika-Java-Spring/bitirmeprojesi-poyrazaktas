@@ -10,4 +10,8 @@ public class UsrUserEntityService extends BaseEntityService<UsrUser, UsrUserDao>
     public UsrUserEntityService(UsrUserDao dao) {
         super(dao);
     }
+
+    public UsrUser getUserByUserName(String userName) {
+        return this.getDao().getUsrUserByUserName(userName);
+    }
 }

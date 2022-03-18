@@ -1,5 +1,6 @@
 package com.poyrazaktas.bitirme.vat.entity;
 
+import com.poyrazaktas.bitirme.gen.entity.BaseEntity;
 import com.poyrazaktas.bitirme.gen.enums.ProductType;
 import lombok.Getter;
 import lombok.Setter;
@@ -11,7 +12,7 @@ import javax.validation.constraints.PositiveOrZero;
 @Table(name="VAT_VALUE_ADDED_TAX")
 @Getter
 @Setter
-public class VatValueAddedTax {
+public class VatValueAddedTax extends BaseEntity {
     @Id
     @SequenceGenerator(name = "VatValueAddedTax", sequenceName = "SEQ_VAT_VALUE_ADDED_TAX_ID")
     @GeneratedValue(generator = "VatValueAddedTax")
