@@ -3,6 +3,7 @@ package com.poyrazaktas.bitirme.prd.service.entityservice;
 import com.poyrazaktas.bitirme.gen.enums.ProductType;
 import com.poyrazaktas.bitirme.gen.service.BaseEntityService;
 import com.poyrazaktas.bitirme.prd.dao.PrdProductDao;
+import com.poyrazaktas.bitirme.prd.dto.PrdProductTypeDetailDto;
 import com.poyrazaktas.bitirme.prd.entity.PrdProduct;
 import org.springframework.stereotype.Service;
 
@@ -21,5 +22,9 @@ public class PrdProductEntityService extends BaseEntityService<PrdProduct, PrdPr
 
     public List<PrdProduct> findAllByPriceWithTaxBetween(BigDecimal lowestPrice, BigDecimal highestPrice) {
         return this.getDao().findAllByPriceWithTaxBetween(lowestPrice, highestPrice);
+    }
+
+    public List<PrdProductTypeDetailDto> getAllProductTypeDetails(){
+        return this.getDao().getAllProductTypeDetails();
     }
 }

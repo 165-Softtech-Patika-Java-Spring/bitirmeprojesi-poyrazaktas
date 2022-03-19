@@ -5,6 +5,7 @@ import com.poyrazaktas.bitirme.gen.util.CalculationUtil;
 import com.poyrazaktas.bitirme.prd.converter.PrdProductMapper;
 import com.poyrazaktas.bitirme.prd.dto.PrdProductDto;
 import com.poyrazaktas.bitirme.prd.dto.PrdProductSaveReqDto;
+import com.poyrazaktas.bitirme.prd.dto.PrdProductTypeDetailDto;
 import com.poyrazaktas.bitirme.prd.dto.PrdProductUpdateReqDto;
 import com.poyrazaktas.bitirme.prd.entity.PrdProduct;
 import com.poyrazaktas.bitirme.prd.service.entityservice.PrdProductEntityService;
@@ -37,6 +38,10 @@ public class PrdProductService {
         return PrdProductMapper.INSTANCE.convertToProductDtoList(productList);
     }
 
+    public List<PrdProductTypeDetailDto> getAllProductTypeDetails(){
+        return productEntityService.getAllProductTypeDetails();
+    }
+
     public PrdProductDto getById(Long id) {
         PrdProduct product = productEntityService.getByIdWithControl(id);
         return PrdProductMapper.INSTANCE.convertToProductDto(product);
@@ -67,7 +72,7 @@ public class PrdProductService {
 
         // unless product type or priceRaw change, don't calculate the price with tax
         if (oldProduct.getProductType() != newProduct.getProductType() ||
-                oldProduct.getPriceRaw() != newProduct.getPriceRaw()) {
+                !oldProduct.getPriceRaw().equals(newProduct.getPriceRaw())) {
             // get product type
             ProductType productType = newProduct.getProductType();
             BigDecimal priceRaw = newProduct.getPriceRaw();

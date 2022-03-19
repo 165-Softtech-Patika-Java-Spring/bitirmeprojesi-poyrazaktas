@@ -4,6 +4,7 @@ import com.poyrazaktas.bitirme.gen.dto.RestResponse;
 import com.poyrazaktas.bitirme.gen.enums.ProductType;
 import com.poyrazaktas.bitirme.prd.dto.PrdProductDto;
 import com.poyrazaktas.bitirme.prd.dto.PrdProductSaveReqDto;
+import com.poyrazaktas.bitirme.prd.dto.PrdProductTypeDetailDto;
 import com.poyrazaktas.bitirme.prd.dto.PrdProductUpdateReqDto;
 import com.poyrazaktas.bitirme.prd.service.PrdProductService;
 import lombok.RequiredArgsConstructor;
@@ -11,7 +12,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.math.BigDecimal;
-import java.util.Date;
 import java.util.List;
 
 @RestController
@@ -42,8 +42,12 @@ public class PrdProductController {
         return ResponseEntity.ok(response);
     }
 
-    // TODO Ürün türlerine göre aşağıdaki gibi detay veri içeren bir bilgilendirme alınabilmelidir.
-    // Ürün Türü,KDV Oranı, Min Fiyat, Max Fiyat, Ortalama Fiyat, Ürün Sayısı
+    @GetMapping("/getAllProductTypeDetails")
+    public ResponseEntity getAllProductTypeDetails() {
+        List<PrdProductTypeDetailDto> productTypeDetailDtoList = productService.getAllProductTypeDetails();
+        RestResponse<List<PrdProductTypeDetailDto>> response = RestResponse.of(productTypeDetailDtoList);
+        return ResponseEntity.ok(response);
+    }
 
     @GetMapping("/get/{id}")
     public ResponseEntity get(@PathVariable Long id) {
