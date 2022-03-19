@@ -10,6 +10,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.math.BigDecimal;
+import java.util.Date;
 import java.util.List;
 
 @RestController
@@ -33,7 +35,12 @@ public class PrdProductController {
         return ResponseEntity.ok(response);
     }
 
-    // TODO Belirli bir fiyat aralığındaki ürünler listelenebilmelidir
+    @GetMapping("/findAllByPriceBetween")
+    public ResponseEntity findAllByPriceBetween(@RequestParam BigDecimal lowestPrice, @RequestParam BigDecimal highestPrice) {
+        List<PrdProductDto> productDtoList = productService.findAllByPriceWithTaxBetween(lowestPrice, highestPrice);
+        RestResponse<List<PrdProductDto>> response = RestResponse.of(productDtoList);
+        return ResponseEntity.ok(response);
+    }
 
     // TODO Ürün türlerine göre aşağıdaki gibi detay veri içeren bir bilgilendirme alınabilmelidir.
     // Ürün Türü,KDV Oranı, Min Fiyat, Max Fiyat, Ortalama Fiyat, Ürün Sayısı

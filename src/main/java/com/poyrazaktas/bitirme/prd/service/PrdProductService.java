@@ -32,6 +32,11 @@ public class PrdProductService {
         return PrdProductMapper.INSTANCE.convertToProductDtoList(productList);
     }
 
+    public List<PrdProductDto> findAllByPriceWithTaxBetween(BigDecimal lowestPrice, BigDecimal highestPrice) {
+        List<PrdProduct> productList = productEntityService.findAllByPriceWithTaxBetween(lowestPrice, highestPrice);
+        return PrdProductMapper.INSTANCE.convertToProductDtoList(productList);
+    }
+
     public PrdProductDto getById(Long id) {
         PrdProduct product = productEntityService.getByIdWithControl(id);
         return PrdProductMapper.INSTANCE.convertToProductDto(product);
@@ -50,10 +55,7 @@ public class PrdProductService {
         BigDecimal priceWithTax = CalculationUtil.calculatePriceWithTax(vatRate, priceRaw);
         product.setPriceWithTax(priceWithTax);
 
-        // save product
         product = productEntityService.save(product);
-
-        // convert product to product dto
 
         return PrdProductMapper.INSTANCE.convertToProductDto(product);
     }
