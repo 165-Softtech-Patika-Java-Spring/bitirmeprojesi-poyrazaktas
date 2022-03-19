@@ -9,18 +9,18 @@ public enum ProductType {
     OTHER("OTHER")
     ;
 
-    private String name;
+    private String type;
 
-    ProductType(String name) {
-        this.name = name;
+    ProductType(String type) {
+        this.type = type;
     }
 
-    public String getName() {
-        return name;
+    public String getType() {
+        return type;
     }
 
     @Override
     public String toString() {
-        return name;
+        return type;
     }
 }

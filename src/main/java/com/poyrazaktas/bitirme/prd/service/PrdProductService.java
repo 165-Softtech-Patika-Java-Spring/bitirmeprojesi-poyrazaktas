@@ -27,12 +27,10 @@ public class PrdProductService {
         return PrdProductMapper.INSTANCE.convertToProductDtoList(productList);
     }
 
-    // TODO Ürün türlerine göre ürünler listelenebilmelidir
-
-    // TODO Belirli bir fiyat aralığındaki ürünler listelenebilmelidir
-
-    // TODO Ürün türlerine göre aşağıdaki gibi detay veri içeren bir bilgilendirme alınabilmelidir.
-    // Ürün Türü,KDV Oranı, Min Fiyat, Max Fiyat, Ortalama Fiyat, Ürün Sayısı
+    public List<PrdProductDto> findAllByProductType(ProductType productType) {
+        List<PrdProduct> productList = productEntityService.findAllByProductType(productType);
+        return PrdProductMapper.INSTANCE.convertToProductDtoList(productList);
+    }
 
     public PrdProductDto getById(Long id) {
         PrdProduct product = productEntityService.getByIdWithControl(id);
@@ -73,7 +71,7 @@ public class PrdProductService {
             BigDecimal priceRaw = newProduct.getPriceRaw();
             VatValueAddedTax valueAddedTax = valueAddedTaxEntityService.getVatValueAddedTaxByProductType(productType);
             int vatRate = valueAddedTax.getVatRate();
-            BigDecimal priceWithTax = CalculationUtil.calculatePriceWithTax(vatRate,priceRaw);
+            BigDecimal priceWithTax = CalculationUtil.calculatePriceWithTax(vatRate, priceRaw);
             newProduct.setPriceWithTax(priceWithTax);
         }
 
