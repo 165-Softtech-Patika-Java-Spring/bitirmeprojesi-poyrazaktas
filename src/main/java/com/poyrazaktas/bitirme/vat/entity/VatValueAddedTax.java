@@ -9,7 +9,7 @@ import javax.persistence.*;
 import javax.validation.constraints.PositiveOrZero;
 
 @Entity
-@Table(name="VAT_VALUE_ADDED_TAX")
+@Table(name = "VAT_VALUE_ADDED_TAX",uniqueConstraints =@UniqueConstraint(name = "UNQ_PRODUCT_TYPE",columnNames = {"PRODUCT_TYPE"}))
 @Getter
 @Setter
 public class VatValueAddedTax extends BaseEntity {
@@ -19,10 +19,10 @@ public class VatValueAddedTax extends BaseEntity {
     private Long id;
 
     @Enumerated(EnumType.STRING)
-    @Column(name = "PRODUCT_TYPE",length = 30,nullable = false)
+    @Column(name = "PRODUCT_TYPE", length = 30, unique = true, nullable = false)
     private ProductType productType;
 
     @PositiveOrZero
-    @Column(name="VAT_RATE",nullable = false)
+    @Column(name = "VAT_RATE", nullable = false)
     private int vatRate;
 }

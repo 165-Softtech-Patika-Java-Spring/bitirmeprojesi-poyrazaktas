@@ -23,7 +23,7 @@ doldurur. Her bir ürün için KDV Tutarı ve ürünün son fiyatı da hesaplana
 - Sisteme yeni ürünler tanımlanabilir, güncellenebilir ve silinebilir.+
 - Ürünlerin fiyatları güncellenebilir.+
 - KDV oranları değiştiğinde sistemdeki ürünlere de bu değişiklik yansıtılmalıdır. Herhangi bir hata
-durumunda tüm işlemler geri alınmalıdır.-
+durumunda tüm işlemler geri alınmalıdır.+
 - Tüm ürünler listelenebilmelidir.+
 - Ürün türlerine göre ürünler listelenebilmelidir.-
 - Belirli bir fiyat aralığındaki ürünler listelenebilmelidir.-

@@ -1,6 +1,7 @@
 package com.poyrazaktas.bitirme.prd.service;
 
 import com.poyrazaktas.bitirme.gen.enums.ProductType;
+import com.poyrazaktas.bitirme.gen.util.CalculationUtil;
 import com.poyrazaktas.bitirme.prd.converter.PrdProductMapper;
 import com.poyrazaktas.bitirme.prd.dto.PrdProductDto;
 import com.poyrazaktas.bitirme.prd.dto.PrdProductSaveReqDto;
@@ -26,6 +27,13 @@ public class PrdProductService {
         return PrdProductMapper.INSTANCE.convertToProductDtoList(productList);
     }
 
+    // TODO Ürün türlerine göre ürünler listelenebilmelidir
+
+    // TODO Belirli bir fiyat aralığındaki ürünler listelenebilmelidir
+
+    // TODO Ürün türlerine göre aşağıdaki gibi detay veri içeren bir bilgilendirme alınabilmelidir.
+    // Ürün Türü,KDV Oranı, Min Fiyat, Max Fiyat, Ortalama Fiyat, Ürün Sayısı
+
     public PrdProductDto getById(Long id) {
         PrdProduct product = productEntityService.getByIdWithControl(id);
         return PrdProductMapper.INSTANCE.convertToProductDto(product);
@@ -41,7 +49,7 @@ public class PrdProductService {
 
         // calculate price with tax with vat rate
         BigDecimal priceRaw = product.getPriceRaw();
-        BigDecimal priceWithTax = calculatePriceWithTax(vatRate, priceRaw);
+        BigDecimal priceWithTax = CalculationUtil.calculatePriceWithTax(vatRate, priceRaw);
         product.setPriceWithTax(priceWithTax);
 
         // save product
@@ -65,7 +73,7 @@ public class PrdProductService {
             BigDecimal priceRaw = newProduct.getPriceRaw();
             VatValueAddedTax valueAddedTax = valueAddedTaxEntityService.getVatValueAddedTaxByProductType(productType);
             int vatRate = valueAddedTax.getVatRate();
-            BigDecimal priceWithTax = calculatePriceWithTax(vatRate, priceRaw);
+            BigDecimal priceWithTax = CalculationUtil.calculatePriceWithTax(vatRate,priceRaw);
             newProduct.setPriceWithTax(priceWithTax);
         }
 
@@ -80,7 +88,4 @@ public class PrdProductService {
         productEntityService.delete(product);
     }
 
-    private BigDecimal calculatePriceWithTax(int vatRate, BigDecimal priceRaw) {
-        return priceRaw.add(priceRaw.multiply(BigDecimal.valueOf(vatRate).divide(BigDecimal.valueOf(100))));
-    }
 }

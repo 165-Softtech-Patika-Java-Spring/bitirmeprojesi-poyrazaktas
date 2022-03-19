@@ -13,6 +13,9 @@ import javax.validation.constraints.PositiveOrZero;
 public class VatValueAddedTaxUpdateReqDto {
 
     @NotNull
+    private Long id;
+
+    @NotNull
     private ProductType productType;
 
     @PositiveOrZero

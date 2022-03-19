@@ -14,6 +14,9 @@ import java.util.Date;
 @RestController
 @ControllerAdvice
 public class CustomExceptionHandler extends ResponseEntityExceptionHandler {
+
+    // FIXME Hatalı işlemler için doğru hata kodlarının dönüldüğünden emin olunuz. - (daha doğru bir handling işlemi)
+
     @ExceptionHandler
     public final ResponseEntity<Object> handleAllUnhandledExceptions(Exception ex, WebRequest webRequest) {
         CustomExceptionResponse customExceptionResponse = getCustomExceptionResponse(ex.getMessage(), webRequest);

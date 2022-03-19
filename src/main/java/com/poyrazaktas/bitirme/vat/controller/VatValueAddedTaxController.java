@@ -31,6 +31,8 @@ public class VatValueAddedTaxController {
         return ResponseEntity.ok(response);
     }
 
+    // TODO hocanın verdiği tabloyu ekleyen bir controller
+
     @PostMapping("/save")
     public ResponseEntity save(@RequestBody VatValueAddedTaxSaveReqDto saveReqDto){
         VatValueAddedTaxDto valueAddedTaxDto = valueAddedTaxService.save(saveReqDto);
