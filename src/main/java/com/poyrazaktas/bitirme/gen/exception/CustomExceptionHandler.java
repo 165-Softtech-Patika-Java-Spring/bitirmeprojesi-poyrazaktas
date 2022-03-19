@@ -16,6 +16,7 @@ import java.util.Date;
 public class CustomExceptionHandler extends ResponseEntityExceptionHandler {
 
     // FIXME Hatalı işlemler için doğru hata kodlarının dönüldüğünden emin olunuz. - (daha doğru bir handling işlemi)
+    // FIXME login errorlarını config et
 
     @ExceptionHandler
     public final ResponseEntity<Object> handleAllUnhandledExceptions(Exception ex, WebRequest webRequest) {
