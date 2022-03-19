@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RequiredArgsConstructor
 public class AuthenticationController {
     private final AuthenticationService authenticationService;
+    //TODO Swagger Config
 
     @PostMapping("/login")
     public ResponseEntity login(@RequestBody JwtUserLoginReqDto jwtUserLoginReqDto) {

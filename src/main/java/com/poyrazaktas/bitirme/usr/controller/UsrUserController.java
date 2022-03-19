@@ -16,6 +16,7 @@ import java.util.List;
 @RequestMapping("/api/v1/users")
 public class UsrUserController {
     private final UsrUserService userService;
+    //TODO Swagger Config
 
     @GetMapping
     public ResponseEntity findAll() {

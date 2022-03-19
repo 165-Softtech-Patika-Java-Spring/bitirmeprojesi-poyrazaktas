@@ -18,6 +18,7 @@ import java.util.List;
 @RequestMapping("/api/v1/value-added-taxes")
 public class VatValueAddedTaxController {
     private final VatValueAddedTaxService valueAddedTaxService;
+    //TODO Swagger Config
 
     @GetMapping
     public ResponseEntity findAll() {
