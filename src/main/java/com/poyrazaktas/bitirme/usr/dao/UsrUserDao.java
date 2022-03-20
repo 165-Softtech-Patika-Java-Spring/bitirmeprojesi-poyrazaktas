@@ -4,7 +4,9 @@ import com.poyrazaktas.bitirme.usr.entity.UsrUser;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
+import java.util.Optional;
+
 @Repository
 public interface UsrUserDao extends JpaRepository<UsrUser, Long> {
-    UsrUser getUsrUserByUserName(String userName);
+    Optional<UsrUser> findUserByUserName(String userName);
 }

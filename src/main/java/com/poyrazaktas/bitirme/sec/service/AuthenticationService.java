@@ -1,5 +1,6 @@
 package com.poyrazaktas.bitirme.sec.service;
 
+import com.poyrazaktas.bitirme.gen.exception.ItemNotFoundException;
 import com.poyrazaktas.bitirme.sec.dto.JwtUserLoginReqDto;
 import com.poyrazaktas.bitirme.sec.enums.JwtConstant;
 import com.poyrazaktas.bitirme.sec.security.JwtTokenGenerator;
@@ -7,6 +8,7 @@ import com.poyrazaktas.bitirme.sec.security.JwtUserDetails;
 import com.poyrazaktas.bitirme.usr.dto.UsrUserDto;
 import com.poyrazaktas.bitirme.usr.dto.UsrUserSaveReqDto;
 import com.poyrazaktas.bitirme.usr.entity.UsrUser;
+import com.poyrazaktas.bitirme.usr.enums.UsrUserErrorMessage;
 import com.poyrazaktas.bitirme.usr.service.UsrUserService;
 import com.poyrazaktas.bitirme.usr.service.entityservice.UsrUserEntityService;
 import lombok.RequiredArgsConstructor;
@@ -68,7 +70,7 @@ public class AuthenticationService {
 
         UsrUser user = null;
         if (jwtUserDetails != null) {
-            user = userEntityService.getByIdWithControl(jwtUserDetails.getId());
+            user = userEntityService.findById(jwtUserDetails.getId()).orElseThrow(() -> new ItemNotFoundException(UsrUserErrorMessage.ITEM_NOT_FOUND));
         }
 
         return user;

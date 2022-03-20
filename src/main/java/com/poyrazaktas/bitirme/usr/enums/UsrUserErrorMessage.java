@@ -1,13 +1,13 @@
-package com.poyrazaktas.bitirme.prd.enums;
+package com.poyrazaktas.bitirme.usr.enums;
 
 import com.poyrazaktas.bitirme.gen.exception.BaseErrorMessage;
 
-public enum PrdProductErrorMessage implements BaseErrorMessage {
-    ITEM_NOT_FOUND("Product not found!");
+public enum UsrUserErrorMessage implements BaseErrorMessage {
+    ITEM_NOT_FOUND("User not found!");
 
     private String message;
 
-    PrdProductErrorMessage(String message) {
+    UsrUserErrorMessage(String message) {
         this.message = message;
     }
 

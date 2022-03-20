@@ -1,6 +1,7 @@
 package com.poyrazaktas.bitirme.prd.service;
 
 import com.poyrazaktas.bitirme.gen.enums.ProductType;
+import com.poyrazaktas.bitirme.gen.exception.ItemNotFoundException;
 import com.poyrazaktas.bitirme.gen.util.CalculationUtil;
 import com.poyrazaktas.bitirme.prd.converter.PrdProductMapper;
 import com.poyrazaktas.bitirme.prd.dto.PrdProductDto;
@@ -8,6 +9,7 @@ import com.poyrazaktas.bitirme.prd.dto.PrdProductSaveReqDto;
 import com.poyrazaktas.bitirme.prd.dto.PrdProductTypeDetailDto;
 import com.poyrazaktas.bitirme.prd.dto.PrdProductUpdateReqDto;
 import com.poyrazaktas.bitirme.prd.entity.PrdProduct;
+import com.poyrazaktas.bitirme.prd.enums.PrdProductErrorMessage;
 import com.poyrazaktas.bitirme.prd.service.entityservice.PrdProductEntityService;
 import com.poyrazaktas.bitirme.vat.entity.VatValueAddedTax;
 import com.poyrazaktas.bitirme.vat.service.entityservice.VatValueAddedTaxEntityService;
@@ -38,12 +40,13 @@ public class PrdProductService {
         return PrdProductMapper.INSTANCE.convertToProductDtoList(productList);
     }
 
-    public List<PrdProductTypeDetailDto> getAllProductTypeDetails(){
+    public List<PrdProductTypeDetailDto> getAllProductTypeDetails() {
         return productEntityService.getAllProductTypeDetails();
     }
 
     public PrdProductDto getById(Long id) {
-        PrdProduct product = productEntityService.getByIdWithControl(id);
+        PrdProduct product = productEntityService.findById(id)
+                .orElseThrow(() -> new ItemNotFoundException(PrdProductErrorMessage.ITEM_NOT_FOUND));
         return PrdProductMapper.INSTANCE.convertToProductDto(product);
     }
 
@@ -67,7 +70,8 @@ public class PrdProductService {
 
 
     public PrdProductDto update(PrdProductUpdateReqDto updateReqDto) {
-        PrdProduct oldProduct = productEntityService.getByIdWithControl(updateReqDto.getId());
+        PrdProduct oldProduct = productEntityService.findById(updateReqDto.getId())
+                .orElseThrow(() -> new ItemNotFoundException(PrdProductErrorMessage.ITEM_NOT_FOUND));
         PrdProduct newProduct = PrdProductMapper.INSTANCE.convertToProduct(updateReqDto);
 
         // unless product type or priceRaw change, don't calculate the price with tax
@@ -89,7 +93,8 @@ public class PrdProductService {
     }
 
     public void delete(Long id) {
-        PrdProduct product = productEntityService.getByIdWithControl(id);
+        PrdProduct product = productEntityService.findById(id)
+                .orElseThrow(() -> new ItemNotFoundException(PrdProductErrorMessage.ITEM_NOT_FOUND));
         productEntityService.delete(product);
     }
 

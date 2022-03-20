@@ -1,6 +1,7 @@
 package com.poyrazaktas.bitirme.vat.service;
 
 import com.poyrazaktas.bitirme.gen.enums.ProductType;
+import com.poyrazaktas.bitirme.gen.exception.ItemNotFoundException;
 import com.poyrazaktas.bitirme.gen.util.CalculationUtil;
 import com.poyrazaktas.bitirme.prd.entity.PrdProduct;
 import com.poyrazaktas.bitirme.prd.service.entityservice.PrdProductEntityService;
@@ -9,6 +10,7 @@ import com.poyrazaktas.bitirme.vat.dto.VatValueAddedTaxDto;
 import com.poyrazaktas.bitirme.vat.dto.VatValueAddedTaxSaveReqDto;
 import com.poyrazaktas.bitirme.vat.dto.VatValueAddedTaxUpdateReqDto;
 import com.poyrazaktas.bitirme.vat.entity.VatValueAddedTax;
+import com.poyrazaktas.bitirme.vat.enums.VatValueAddedTaxErrorMessage;
 import com.poyrazaktas.bitirme.vat.service.entityservice.VatValueAddedTaxEntityService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -29,7 +31,8 @@ public class VatValueAddedTaxService {
     }
 
     public VatValueAddedTaxDto get(Long id) {
-        VatValueAddedTax vatValueAddedTax = valueAddedTaxEntityService.getByIdWithControl(id);
+        VatValueAddedTax vatValueAddedTax = valueAddedTaxEntityService.findById(id)
+                .orElseThrow(() -> new ItemNotFoundException(VatValueAddedTaxErrorMessage.ITEM_NOT_FOUND));
         return VatValueAddedTaxMapper.INSTANCE.convertToValueAddedTaxDto(vatValueAddedTax);
     }
 
@@ -42,7 +45,8 @@ public class VatValueAddedTaxService {
     @Transactional
     public VatValueAddedTaxDto update(VatValueAddedTaxUpdateReqDto updateReqDto) {
 
-        VatValueAddedTax oldValueAddedTax = valueAddedTaxEntityService.getByIdWithControl(updateReqDto.getId());
+        VatValueAddedTax oldValueAddedTax = valueAddedTaxEntityService.findById(updateReqDto.getId())
+                .orElseThrow(() -> new ItemNotFoundException(VatValueAddedTaxErrorMessage.ITEM_NOT_FOUND));
 
         VatValueAddedTax newValueAddedTax = VatValueAddedTaxMapper.INSTANCE.convertToValueAddedTax(updateReqDto);
 
@@ -59,7 +63,8 @@ public class VatValueAddedTaxService {
 
 
     public void delete(Long id) {
-        VatValueAddedTax valueAddedTax = valueAddedTaxEntityService.getByIdWithControl(id);
+        VatValueAddedTax valueAddedTax = valueAddedTaxEntityService.findById(id)
+                .orElseThrow(() -> new ItemNotFoundException(VatValueAddedTaxErrorMessage.ITEM_NOT_FOUND));
         valueAddedTaxEntityService.delete(valueAddedTax);
     }
 

@@ -5,13 +5,15 @@ import com.poyrazaktas.bitirme.usr.dao.UsrUserDao;
 import com.poyrazaktas.bitirme.usr.entity.UsrUser;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
 @Service
 public class UsrUserEntityService extends BaseEntityService<UsrUser, UsrUserDao> {
     public UsrUserEntityService(UsrUserDao dao) {
         super(dao);
     }
 
-    public UsrUser getUserByUserName(String userName) {
-        return this.getDao().getUsrUserByUserName(userName);
+    public Optional<UsrUser> findUserByUserName(String userName) {
+        return this.getDao().findUserByUserName(userName);
     }
 }

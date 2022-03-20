@@ -1,13 +1,13 @@
-package com.poyrazaktas.bitirme.prd.enums;
+package com.poyrazaktas.bitirme.vat.enums;
 
 import com.poyrazaktas.bitirme.gen.exception.BaseErrorMessage;
 
-public enum PrdProductErrorMessage implements BaseErrorMessage {
-    ITEM_NOT_FOUND("Product not found!");
+public enum VatValueAddedTaxErrorMessage implements BaseErrorMessage {
+    ITEM_NOT_FOUND("Value Added Tax not found!");
 
     private String message;
 
-    PrdProductErrorMessage(String message) {
+    VatValueAddedTaxErrorMessage(String message) {
         this.message = message;
     }
 
