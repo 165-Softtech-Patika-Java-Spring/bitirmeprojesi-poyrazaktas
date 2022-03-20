@@ -25,9 +25,9 @@ doldurur. Her bir ürün için KDV Tutarı ve ürünün son fiyatı da hesaplana
 - KDV oranları değiştiğinde sistemdeki ürünlere de bu değişiklik yansıtılmalıdır. Herhangi bir hata
 durumunda tüm işlemler geri alınmalıdır.+
 - Tüm ürünler listelenebilmelidir.+
-- Ürün türlerine göre ürünler listelenebilmelidir.-
-- Belirli bir fiyat aralığındaki ürünler listelenebilmelidir.-
-- Ürün türlerine göre aşağıdaki gibi detay veri içeren bir bilgilendirme alınabilmelidir.-
+- Ürün türlerine göre ürünler listelenebilmelidir.+
+- Belirli bir fiyat aralığındaki ürünler listelenebilmelidir.+
+- Ürün türlerine göre aşağıdaki gibi detay veri içeren bir bilgilendirme alınabilmelidir.+
 
 ![Image](https://www.linkpicture.com/q/22_57.png)
 
@@ -42,7 +42,7 @@ durumunda tüm işlemler geri alınmalıdır.+
 > Response:
 - Başarılı ve başarısız responselar için modeller tanımlayın ve bunları kullanın.+
 > Dökümantasyon:
-- Open API Specification (Swagger tercih sebebi)-(Operation tagıyla doc. kaldı)
+- Open API Specification (Swagger tercih sebebi)+
 > Exception Handling:
 - Hatalı işlemler için doğru hata kodlarının dönüldüğünden emin olunuz. - (daha doğru bir handling işlemi)
 > Test:
