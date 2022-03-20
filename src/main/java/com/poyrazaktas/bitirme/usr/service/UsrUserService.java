@@ -34,18 +34,24 @@ public class UsrUserService {
     public UsrUserDto save(UsrUserSaveReqDto saveReqDto) {
         UsrUser user = UsrUserMapper.INSTANCE.convertToUser(saveReqDto);
 
-        String passwordEncoded = passwordEncoder.encode(user.getPassword());
-        user.setPassword(passwordEncoded);
+        encodeUserPassword(user);
 
         user = userEntityService.save(user);
         return UsrUserMapper.INSTANCE.convertToUserDto(user);
     }
 
-    // TODO user şifresi update edildiyse hashleyerek koy
     public UsrUserDto update(UsrUserUpdateReqDto updateReqDto) {
         UsrUser user = UsrUserMapper.INSTANCE.convertToUser(updateReqDto);
+
+        encodeUserPassword(user);
+
         user = userEntityService.save(user);
         return UsrUserMapper.INSTANCE.convertToUserDto(user);
+    }
+
+    private void encodeUserPassword(UsrUser user) {
+        String passwordEncoded = passwordEncoder.encode(user.getPassword());
+        user.setPassword(passwordEncoded);
     }
 
     public void delete(Long id) {
