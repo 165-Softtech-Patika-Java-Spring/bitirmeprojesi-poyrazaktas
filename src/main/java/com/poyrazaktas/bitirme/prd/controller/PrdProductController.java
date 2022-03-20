@@ -8,7 +8,6 @@ import com.poyrazaktas.bitirme.prd.dto.PrdProductTypeDetailDto;
 import com.poyrazaktas.bitirme.prd.dto.PrdProductUpdateReqDto;
 import com.poyrazaktas.bitirme.prd.service.PrdProductService;
 import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.media.ArraySchema;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.ExampleObject;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -37,10 +36,7 @@ public class PrdProductController {
                     @ApiResponse(
                             responseCode = "200",
                             description = "List of products",
-                            content = @Content(
-                                    mediaType = "application/json",
-                                    array = @ArraySchema(schema = @Schema(implementation = PrdProductDto.class))
-                            )
+                            content = @Content()
                     ),
                     @ApiResponse(
                             responseCode = "401",
@@ -66,10 +62,7 @@ public class PrdProductController {
                     @ApiResponse(
                             responseCode = "200",
                             description = "List of products",
-                            content = @Content(
-                                    mediaType = "application/json",
-                                    array = @ArraySchema(schema = @Schema(implementation = PrdProductDto.class))
-                            )
+                            content = @Content()
                     ),
                     @ApiResponse(
                             responseCode = "401",
@@ -96,10 +89,7 @@ public class PrdProductController {
                     @ApiResponse(
                             responseCode = "200",
                             description = "List of products",
-                            content = @Content(
-                                    mediaType = "application/json",
-                                    array = @ArraySchema(schema = @Schema(implementation = PrdProductDto.class))
-                            )
+                            content = @Content()
                     ),
                     @ApiResponse(
                             responseCode = "401",
@@ -126,10 +116,7 @@ public class PrdProductController {
                     @ApiResponse(
                             responseCode = "200",
                             description = "List of product type details",
-                            content = @Content(
-                                    mediaType = "application/json",
-                                    array = @ArraySchema(schema = @Schema(implementation = PrdProductTypeDetailDto.class))
-                            )
+                            content = @Content()
                     ),
                     @ApiResponse(
                             responseCode = "401",
@@ -312,11 +299,6 @@ public class PrdProductController {
                     @ApiResponse(
                             responseCode = "200",
                             description = "Product deleted successfully",
-                            content = @Content()
-                    ),
-                    @ApiResponse(
-                            responseCode = "500",
-                            description = "Error while deleting the product",
                             content = @Content()
                     ),
                     @ApiResponse(

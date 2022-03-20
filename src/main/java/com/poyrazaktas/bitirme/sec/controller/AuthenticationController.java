@@ -63,7 +63,7 @@ public class AuthenticationController {
                     @ApiResponse(
                             responseCode = "500",
                             description = "Unsuccessful Login Response. " +
-                                    "It happens when your credentials don't match or you weren't register yet.",
+                                    "It happens when your credentials don't match or you didn't register yet.",
                             content = @Content()
                     )
             }

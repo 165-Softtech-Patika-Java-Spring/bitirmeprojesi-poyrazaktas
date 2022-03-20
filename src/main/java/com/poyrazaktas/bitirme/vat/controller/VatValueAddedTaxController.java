@@ -7,7 +7,6 @@ import com.poyrazaktas.bitirme.vat.dto.VatValueAddedTaxSaveReqDto;
 import com.poyrazaktas.bitirme.vat.dto.VatValueAddedTaxUpdateReqDto;
 import com.poyrazaktas.bitirme.vat.service.VatValueAddedTaxService;
 import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.media.ArraySchema;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.ExampleObject;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -36,10 +35,7 @@ public class VatValueAddedTaxController {
                     @ApiResponse(
                             responseCode = "200",
                             description = "List of value added taxes",
-                            content = @Content(
-                                    mediaType = "application/json",
-                                    array = @ArraySchema(schema = @Schema(implementation = VatValueAddedTaxDto.class))
-                            )
+                            content = @Content()
                     ),
                     @ApiResponse(
                             responseCode = "401",
@@ -142,7 +138,7 @@ public class VatValueAddedTaxController {
             description = "Save a value added tax entity considering the product type would be unique",
             summary = "Save Value Added Tax Entity",
             requestBody = @io.swagger.v3.oas.annotations.parameters.RequestBody(
-                    description = "Value Added Tax",
+                    description = "Value Added Tax Save Request Body",
                     content = {
                             @Content(
                                     mediaType = "application/json",
@@ -198,7 +194,7 @@ public class VatValueAddedTaxController {
             description = "Update a value added tax entity considering the product type would be unique",
             summary = "Update Value Added Tax Entity",
             requestBody = @io.swagger.v3.oas.annotations.parameters.RequestBody(
-                    description = "Value Added Tax",
+                    description = "Value Added Tax Update Request body",
                     content = {
                             @Content(
                                     mediaType = "application/json",

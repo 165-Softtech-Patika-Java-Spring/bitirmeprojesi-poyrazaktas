@@ -6,7 +6,6 @@ import com.poyrazaktas.bitirme.usr.dto.UsrUserSaveReqDto;
 import com.poyrazaktas.bitirme.usr.dto.UsrUserUpdateReqDto;
 import com.poyrazaktas.bitirme.usr.service.UsrUserService;
 import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.media.ArraySchema;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.ExampleObject;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -34,10 +33,7 @@ public class UsrUserController {
                     @ApiResponse(
                             responseCode = "200",
                             description = "List of users",
-                            content = @Content(
-                                    mediaType = "application/json",
-                                    array = @ArraySchema(schema = @Schema(implementation = UsrUserDto.class))
-                            )
+                            content = @Content()
                     ),
                     @ApiResponse(
                             responseCode = "401",
@@ -209,11 +205,6 @@ public class UsrUserController {
                     @ApiResponse(
                             responseCode = "200",
                             description = "User deleted successfully",
-                            content = @Content()
-                    ),
-                    @ApiResponse(
-                            responseCode = "500",
-                            description = "Error while deleting the user",
                             content = @Content()
                     ),
                     @ApiResponse(
