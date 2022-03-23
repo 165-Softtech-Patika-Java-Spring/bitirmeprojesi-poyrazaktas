@@ -41,6 +41,10 @@ public class UsrUserService {
     }
 
     public UsrUserDto update(UsrUserUpdateReqDto updateReqDto) {
+
+        userEntityService.findById(updateReqDto.getId())
+                .orElseThrow(() -> new ItemNotFoundException(UsrUserErrorMessage.ITEM_NOT_FOUND));
+
         UsrUser user = UsrUserMapper.INSTANCE.convertToUser(updateReqDto);
 
         encodeUserPassword(user);
