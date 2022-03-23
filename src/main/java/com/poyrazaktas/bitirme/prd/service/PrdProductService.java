@@ -74,7 +74,15 @@ public class PrdProductService {
                 .orElseThrow(() -> new ItemNotFoundException(PrdProductErrorMessage.ITEM_NOT_FOUND));
         PrdProduct newProduct = PrdProductMapper.INSTANCE.convertToProduct(updateReqDto);
 
-        // unless product type or priceRaw change, don't calculate the price with tax
+        calculatePriceWithTaxWhileUpdatingIfItIsRequired(oldProduct, newProduct);
+
+        PrdProduct updatedProduct = productEntityService.save(newProduct);
+
+        return PrdProductMapper.INSTANCE.convertToProductDto(updatedProduct);
+
+    }
+
+    private void calculatePriceWithTaxWhileUpdatingIfItIsRequired(PrdProduct oldProduct, PrdProduct newProduct) {
         if (oldProduct.getProductType() != newProduct.getProductType() ||
                 !oldProduct.getPriceRaw().equals(newProduct.getPriceRaw())) {
             // get product type
@@ -85,11 +93,6 @@ public class PrdProductService {
             BigDecimal priceWithTax = CalculationUtil.calculatePriceWithTax(vatRate, priceRaw);
             newProduct.setPriceWithTax(priceWithTax);
         }
-
-        PrdProduct updatedProduct = productEntityService.save(newProduct);
-
-        return PrdProductMapper.INSTANCE.convertToProductDto(updatedProduct);
-
     }
 
     public void delete(Long id) {

@@ -2,10 +2,10 @@ package com.poyrazaktas.bitirme.prd.service;
 
 import com.poyrazaktas.bitirme.gen.enums.ProductType;
 import com.poyrazaktas.bitirme.gen.exception.ItemNotFoundException;
-import com.poyrazaktas.bitirme.gen.util.CalculationUtil;
 import com.poyrazaktas.bitirme.prd.dto.PrdProductDto;
 import com.poyrazaktas.bitirme.prd.dto.PrdProductSaveReqDto;
 import com.poyrazaktas.bitirme.prd.dto.PrdProductTypeDetailDto;
+import com.poyrazaktas.bitirme.prd.dto.PrdProductUpdateReqDto;
 import com.poyrazaktas.bitirme.prd.entity.PrdProduct;
 import com.poyrazaktas.bitirme.prd.service.entityservice.PrdProductEntityService;
 import com.poyrazaktas.bitirme.vat.entity.VatValueAddedTax;
@@ -208,10 +208,134 @@ class PrdProductServiceTest {
     }
 
     @Test
-    void update() {
+    void whenSave_calledWithEmptyRequestBody_thenItShouldThrowNullPointerException() {
+
+        assertThrows(NullPointerException.class,()->productService.save(null));
+
     }
 
     @Test
-    void delete() {
+    void whenUpdate_calledWithNewRawPrice_thenItShouldReturnValidProductDto() {
+        Long id = 2L;
+        int vatRate = 50;
+        BigDecimal oldRawPrice = BigDecimal.TEN;
+        BigDecimal newRawPrice = BigDecimal.valueOf(20);
+
+        BigDecimal oldPriceWithTax = BigDecimal.valueOf(15);
+        BigDecimal newPriceWithTax = BigDecimal.valueOf(30);
+
+
+        PrdProductUpdateReqDto updateReqDto = mock(PrdProductUpdateReqDto.class);
+        when(updateReqDto.getId()).thenReturn(id);
+        when(updateReqDto.getPriceRaw()).thenReturn(newRawPrice);
+
+
+        PrdProduct oldProduct = new PrdProduct();
+        oldProduct.setId(id);
+        oldProduct.setPriceRaw(oldRawPrice);
+        oldProduct.setPriceWithTax(oldPriceWithTax);
+
+        PrdProduct newProduct = new PrdProduct();
+        newProduct.setId(id);
+        newProduct.setPriceRaw(newRawPrice);
+        newProduct.setPriceWithTax(newPriceWithTax);
+
+        VatValueAddedTax valueAddedTax = mock(VatValueAddedTax.class);
+        when(valueAddedTax.getVatRate()).thenReturn(vatRate);
+
+        when(valueAddedTaxEntityService.getVatValueAddedTaxByProductType(any())).thenReturn(valueAddedTax);
+
+        when(productEntityService.findById(id)).thenReturn(Optional.of(oldProduct));
+
+        when(productEntityService.save(any())).thenReturn(newProduct);
+
+        PrdProductDto result = productService.update(updateReqDto);
+
+        assertEquals(id,result.getId());
+        assertEquals(newPriceWithTax,result.getFinalPrice());
+
+    }
+
+    @Test
+    void whenUpdate_calledWithNewProductType_thenItShouldReturnValidProductDto() {
+        Long id = 2L;
+        int vatRate = 50;
+        BigDecimal oldRawPrice = BigDecimal.TEN;
+
+
+        BigDecimal oldPriceWithTax = BigDecimal.valueOf(15);
+        BigDecimal newPriceWithTax = BigDecimal.valueOf(30);
+
+        ProductType oldProductType = ProductType.TECHNOLOGY;
+        ProductType newProductType = ProductType.OTHER;
+
+        PrdProductUpdateReqDto updateReqDto = mock(PrdProductUpdateReqDto.class);
+        when(updateReqDto.getId()).thenReturn(id);
+        when(updateReqDto.getPriceRaw()).thenReturn(oldRawPrice);
+        when(updateReqDto.getProductType()).thenReturn(newProductType);
+
+
+        PrdProduct oldProduct = new PrdProduct();
+        oldProduct.setId(id);
+        oldProduct.setPriceRaw(oldRawPrice);
+        oldProduct.setPriceWithTax(oldPriceWithTax);
+        oldProduct.setProductType(oldProductType);
+
+        PrdProduct newProduct = new PrdProduct();
+        newProduct.setId(id);
+        newProduct.setPriceRaw(oldRawPrice);
+        newProduct.setPriceWithTax(newPriceWithTax);
+        newProduct.setProductType(newProductType);
+
+
+        VatValueAddedTax valueAddedTax = mock(VatValueAddedTax.class);
+        when(valueAddedTax.getVatRate()).thenReturn(vatRate);
+
+        when(valueAddedTaxEntityService.getVatValueAddedTaxByProductType(any())).thenReturn(valueAddedTax);
+
+        when(productEntityService.findById(id)).thenReturn(Optional.of(oldProduct));
+
+        when(productEntityService.save(any())).thenReturn(newProduct);
+
+        PrdProductDto result = productService.update(updateReqDto);
+
+        assertEquals(id,result.getId());
+        assertEquals(newPriceWithTax,result.getFinalPrice());
+        assertEquals(newProductType,result.getProductType());
+
+    }
+
+    @Test
+    void whenUpdate_calledWithNotMatchingId_thenItShouldThrowItemNotFoundException(){
+
+        PrdProductUpdateReqDto updateReqDto = mock(PrdProductUpdateReqDto.class);
+
+        when(productEntityService.findById(anyLong())).thenThrow(ItemNotFoundException.class);
+
+        assertThrows(ItemNotFoundException.class, () -> productService.update(updateReqDto));
+
+        verify(productEntityService).findById(anyLong());
+    }
+
+    @Test
+    void whenDelete_calledWithValidId_thenItShouldDeleteProduct() {
+        PrdProduct product = mock(PrdProduct.class);
+
+        when(productEntityService.findById(anyLong())).thenReturn(Optional.of(product));
+
+        productService.delete(anyLong());
+
+        verify(productEntityService).findById(anyLong());
+        verify(productEntityService).delete(any());
+    }
+
+    @Test
+    void whenDelete_calledWithNull_thenItShouldThrowItemNotFoundException() {
+
+        when(productEntityService.findById(anyLong())).thenThrow(ItemNotFoundException.class);
+
+        assertThrows(ItemNotFoundException.class, () -> productService.delete(anyLong()));
+
+        verify(productEntityService).findById(anyLong());
     }
 }
