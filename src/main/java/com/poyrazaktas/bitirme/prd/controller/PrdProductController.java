@@ -17,6 +17,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.math.BigDecimal;
 import java.util.List;
 
@@ -72,7 +73,7 @@ public class PrdProductController {
             }
     )
     @GetMapping("/findAllByProductType")
-    public ResponseEntity findAllByProductType(@RequestParam("type") ProductType productType) {
+    public ResponseEntity findAllByProductType(@RequestParam(value = "type") ProductType productType) {
         List<PrdProductDto> productDtoList = productService.findAllByProductType(productType);
         RestResponse<List<PrdProductDto>> response = RestResponse.of(productDtoList);
         return ResponseEntity.ok(response);

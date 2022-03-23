@@ -1,8 +1,10 @@
 package com.poyrazaktas.bitirme.gen.exception;
 
 import com.poyrazaktas.bitirme.gen.dto.RestResponse;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestController;
@@ -30,6 +32,14 @@ public class CustomExceptionHandler extends ResponseEntityExceptionHandler {
 
         RestResponse restResponse = RestResponse.error(customExceptionResponse);
         return new ResponseEntity<>(restResponse, HttpStatus.NOT_FOUND);
+    }
+
+    @Override
+    protected ResponseEntity<Object> handleMethodArgumentNotValid(MethodArgumentNotValidException ex, HttpHeaders headers, HttpStatus status, WebRequest request) {
+        CustomExceptionResponse customExceptionResponse = getCustomExceptionResponse(ex.getMessage(), request);
+        RestResponse<CustomExceptionResponse> restResponse = RestResponse.error(customExceptionResponse);
+
+        return new ResponseEntity<>(restResponse, HttpStatus.BAD_REQUEST);
     }
 
     @ExceptionHandler
