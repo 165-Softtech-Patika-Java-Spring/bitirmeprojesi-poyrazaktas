@@ -44,6 +44,6 @@ durumunda tüm işlemler geri alınmalıdır.+
 > Dökümantasyon:
 - Open API Specification (Swagger tercih sebebi)+
 > Exception Handling:
-- Hatalı işlemler için doğru hata kodlarının dönüldüğünden emin olunuz. - (daha doğru bir handling işlemi)
+- Hatalı işlemler için doğru hata kodlarının dönüldüğünden emin olunuz. - (daha doğru hata kodları gerekiyor işlemi)
 > Test:
 - Unit ve integration testleri yazınız. - (en son)

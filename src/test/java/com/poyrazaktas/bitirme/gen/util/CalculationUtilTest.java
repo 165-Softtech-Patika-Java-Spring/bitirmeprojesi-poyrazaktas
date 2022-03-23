@@ -10,7 +10,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 class CalculationUtilTest {
 
     @Test
-    void shouldCalculatePriceWithTax_whenRawPriceIsNotNullAndVatRateIsNotNull() {
+    void whenCalculatePriceWithTax_calledWithValidParams_thenItShouldReturnValidPriceWithTax() {
         BigDecimal priceRaw = BigDecimal.valueOf(100);
         int vatRate = 10;
         BigDecimal expected = BigDecimal.valueOf(110);
@@ -20,7 +20,7 @@ class CalculationUtilTest {
     }
 
     @Test
-    void shouldCalculatePriceWithTax_whenVatRateIsZero() {
+    void whenCalculatePriceWithTax_calledWithZeroVatRate_thenItShouldReturnValidPriceWithTax() {
         BigDecimal priceRaw = BigDecimal.valueOf(100);
         int vatRate = 0;
         BigDecimal expected = BigDecimal.valueOf(100);
@@ -30,7 +30,7 @@ class CalculationUtilTest {
     }
 
     @Test
-    void shouldThrowNullPointerException_whenRawPriceIsNullAndVatRateIsNotNull() {
+    void whenCalculatePriceWithTax_calledWithNullRawPrice_thenItShouldThrowNullPointerException() {
         BigDecimal priceRaw = null;
         int vatRate = 10;
 
@@ -39,7 +39,7 @@ class CalculationUtilTest {
     }
 
     @Test
-    void shouldThrowNullPointerException_whenRawPriceIsNotNullAndVatRateIsNull() {
+    void whenCalculatePriceWithTax_calledWithNullVatRate_thenItShouldThrowNullPointerException() {
         BigDecimal priceRaw = BigDecimal.valueOf(100);
         Integer vatRate = null;
 
