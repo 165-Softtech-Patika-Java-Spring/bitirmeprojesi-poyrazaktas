@@ -3,6 +3,7 @@ package com.poyrazaktas.bitirme.sec.service;
 import com.poyrazaktas.bitirme.gen.exception.ItemNotFoundException;
 import com.poyrazaktas.bitirme.sec.dto.JwtUserLoginReqDto;
 import com.poyrazaktas.bitirme.sec.enums.JwtConstant;
+import com.poyrazaktas.bitirme.sec.enums.SecSecurityErrorMessage;
 import com.poyrazaktas.bitirme.sec.security.JwtTokenGenerator;
 import com.poyrazaktas.bitirme.sec.security.JwtUserDetails;
 import com.poyrazaktas.bitirme.usr.dto.UsrUserDto;
@@ -17,6 +18,7 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 
 @Service
 @RequiredArgsConstructor
@@ -32,8 +34,12 @@ public class AuthenticationService {
     }
 
     public String login(JwtUserLoginReqDto userLoginReqDto) {
+
+        validateLoginRequestDto(userLoginReqDto);
+
         UsernamePasswordAuthenticationToken authenticationToken =
                 new UsernamePasswordAuthenticationToken(userLoginReqDto.getUserName(), userLoginReqDto.getPassword());
+
         Authentication authentication = authenticationManager.authenticate(authenticationToken);
         SecurityContextHolder.getContext().setAuthentication(authentication);
 
@@ -42,6 +48,12 @@ public class AuthenticationService {
         String bearer = JwtConstant.BEARER.getConstant();
 
         return bearer + token;
+    }
+
+    private void validateLoginRequestDto(JwtUserLoginReqDto userLoginReqDto) {
+        if (!StringUtils.hasText(userLoginReqDto.getUserName()) || !!StringUtils.hasText(userLoginReqDto.getPassword())){
+            throw new NullPointerException(SecSecurityErrorMessage.REQUEST_BODY_IS_EMPTY.getMessage());
+        }
     }
 
     public Long getCurrentUserId() {
