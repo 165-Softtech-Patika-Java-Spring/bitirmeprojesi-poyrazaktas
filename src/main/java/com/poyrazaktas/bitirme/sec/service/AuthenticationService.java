@@ -51,7 +51,7 @@ public class AuthenticationService {
     }
 
     private void validateLoginRequestDto(JwtUserLoginReqDto userLoginReqDto) {
-        if (!StringUtils.hasText(userLoginReqDto.getUserName()) || !!StringUtils.hasText(userLoginReqDto.getPassword())){
+        if (!StringUtils.hasText(userLoginReqDto.getUserName()) || !StringUtils.hasText(userLoginReqDto.getPassword())){
             throw new NullPointerException(SecSecurityErrorMessage.REQUEST_BODY_IS_EMPTY.getMessage());
         }
     }

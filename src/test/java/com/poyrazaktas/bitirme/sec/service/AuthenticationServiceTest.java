@@ -3,6 +3,7 @@ package com.poyrazaktas.bitirme.sec.service;
 import com.poyrazaktas.bitirme.sec.dto.JwtUserLoginReqDto;
 import com.poyrazaktas.bitirme.sec.enums.JwtConstant;
 import com.poyrazaktas.bitirme.sec.security.JwtTokenGenerator;
+import com.poyrazaktas.bitirme.sec.security.JwtUserDetails;
 import com.poyrazaktas.bitirme.usr.dto.UsrUserDto;
 import com.poyrazaktas.bitirme.usr.dto.UsrUserSaveReqDto;
 import com.poyrazaktas.bitirme.usr.service.UsrUserService;
@@ -14,6 +15,7 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -64,7 +66,7 @@ class AuthenticationServiceTest {
 
         when(userService.save(null)).thenThrow(NullPointerException.class);
 
-        assertThrows(NullPointerException.class,()->authenticationService.register(null));
+        assertThrows(NullPointerException.class, () -> authenticationService.register(null));
 
     }
 
@@ -96,19 +98,8 @@ class AuthenticationServiceTest {
 
         JwtUserLoginReqDto loginReqDto = mock(JwtUserLoginReqDto.class);
 
-        assertThrows(NullPointerException.class, ()->authenticationService.login(loginReqDto));
+        assertThrows(NullPointerException.class, () -> authenticationService.login(loginReqDto));
 
     }
 
-    @Test
-    void getCurrentUserId() {
-    }
-
-    @Test
-    void getCurrentUserName() {
-    }
-
-    @Test
-    void getCurrentUser() {
-    }
 }
