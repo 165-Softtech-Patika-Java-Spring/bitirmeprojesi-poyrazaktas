@@ -9,6 +9,8 @@ import lombok.Setter;
 @Setter
 public class VatValueAddedTaxDto {
 
+    private Long id;
+
     private ProductType productType;
 
     private int vatRate;
