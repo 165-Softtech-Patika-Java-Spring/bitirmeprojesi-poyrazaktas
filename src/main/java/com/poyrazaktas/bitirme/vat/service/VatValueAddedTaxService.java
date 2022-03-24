@@ -50,15 +50,20 @@ public class VatValueAddedTaxService {
 
         VatValueAddedTax newValueAddedTax = VatValueAddedTaxMapper.INSTANCE.convertToValueAddedTax(updateReqDto);
 
+        newValueAddedTax = updateValueAddedTax(oldValueAddedTax, newValueAddedTax);
+
+
+        return VatValueAddedTaxMapper.INSTANCE.convertToValueAddedTaxDto(newValueAddedTax);
+    }
+
+    private VatValueAddedTax updateValueAddedTax(VatValueAddedTax oldValueAddedTax, VatValueAddedTax newValueAddedTax) {
         if (isTaxRateOrProductTypeUpdated(oldValueAddedTax, newValueAddedTax)) {
             newValueAddedTax = valueAddedTaxEntityService.save(newValueAddedTax);
             int vatRate = newValueAddedTax.getVatRate();
             ProductType productType = newValueAddedTax.getProductType();
             updateProductPriceWithTaxesWhichVatRateIsUpdated(vatRate, productType);
         } // otherwise, we don't need to perform persistence actions
-
-
-        return VatValueAddedTaxMapper.INSTANCE.convertToValueAddedTaxDto(newValueAddedTax);
+        return newValueAddedTax;
     }
 
 
