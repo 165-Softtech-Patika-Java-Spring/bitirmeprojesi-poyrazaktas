@@ -1,0 +1,42 @@
+@startuml
+class com.poyrazaktas.bitirme.vat.entity.VatValueAddedTax {
+- Long id
+- ProductType productType
+- int vatRate
+}
+class com.poyrazaktas.bitirme.gen.entity.BaseAdditionalFields {
+- Date createDate
+- Date updateDate
+- Long createdBy
+- Long updatedBy
+}
+abstract class com.poyrazaktas.bitirme.gen.entity.BaseEntity {
+- {static} long serialVersionUID
+- BaseAdditionalFields baseAdditionalFields
+}
+interface com.poyrazaktas.bitirme.gen.entity.BaseModel {
+~ Long getId()
+}
+class com.poyrazaktas.bitirme.prd.entity.PrdProduct {
+- Long id
+- String name
+- ProductType productType
+- BigDecimal priceRaw
+- BigDecimal priceWithTax
+}
+class com.poyrazaktas.bitirme.usr.entity.UsrUser {
+- Long id
+- String firstName
+- String lastName
+- String userName
+- String password
+}
+
+
+com.poyrazaktas.bitirme.gen.entity.BaseEntity <|-- com.poyrazaktas.bitirme.vat.entity.VatValueAddedTax
+com.poyrazaktas.bitirme.gen.entity.BaseModel <|.. com.poyrazaktas.bitirme.gen.entity.BaseEntity
+com.poyrazaktas.bitirme.gen.entity.Cloneable <|.. com.poyrazaktas.bitirme.gen.entity.BaseEntity
+java.io.Serializable <|.. com.poyrazaktas.bitirme.gen.entity.BaseEntity
+com.poyrazaktas.bitirme.gen.entity.BaseEntity <|-- com.poyrazaktas.bitirme.prd.entity.PrdProduct
+com.poyrazaktas.bitirme.gen.entity.BaseEntity <|-- com.poyrazaktas.bitirme.usr.entity.UsrUser
+@enduml
